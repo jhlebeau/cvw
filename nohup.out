@@ -1,0 +1,28 @@
+make -C tests/riscof
+make -C /rs23/jhl6/open_hw/cvw/tests/fp vectors
+make -C /rs23/jhl6/open_hw/cvw/fpga/zsbl
+make -C tests/coverage
+make -C /rs23/jhl6/open_hw/cvw/tests/fp/vectors
+make[1]: Nothing to be done for 'all'.
+make[2]: Nothing to be done for 'all'.
+riscof run --work-dir=./riscof_work/arch64 --config=config64.ini --suite=/rs23/jhl6/open_hw/cvw/addins/riscv-arch-test/riscv-test-suite/ --env=/rs23/jhl6/open_hw/cvw/addins/riscv-arch-test/riscv-test-suite/env --no-browser
+[32m    INFO[0m | [32m****** RISCOF: RISC-V Architectural Test Framework 1.25.3 *******[0m
+[32m    INFO[0m | [32musing riscv_isac version : 0.18.0[0m
+[32m    INFO[0m | [32musing riscv_config version : 3.20.0[0m
+
+Aborted!
+make[1]: *** [Makefile:36: arch64] Error 1
+riscof run --work-dir=./riscof_work/wally32 --config=config32.ini --suite=/rs23/jhl6/open_hw/cvw/tests/wally-riscv-arch-test/riscv-test-suite/ --env=/rs23/jhl6/open_hw/cvw/tests/wally-riscv-arch-test/riscv-test-suite/env --no-browser --no-dut-run
+[32m    INFO[0m | [32m****** RISCOF: RISC-V Architectural Test Framework 1.25.3 *******[0m
+[32m    INFO[0m | [32musing riscv_isac version : 0.18.0[0m
+[32m    INFO[0m | [32musing riscv_config version : 3.20.0[0m
+[32m    INFO[0m | [32mReading configuration from: /rs23/jhl6/open_hw/cvw/tests/riscof/config32.ini[0m
+[32m    INFO[0m | [32mPreparing Models[0m
+[32m    INFO[0m | [32mInput-ISA file[0m
+[32m    INFO[0m | [32mISACheck: Loading input file: /rs23/jhl6/open_hw/cvw/tests/riscof/spike/spike_rv32gc_isa.yaml[0m
+[32m    INFO[0m | [32mISACheck: Load Schema /rs23/shared/riscv/riscv-python/lib/python3.11/site-packages/riscv_config/schemas/schema_isa.yaml[0m
+[32m    INFO[0m | [32mISACheck: Processing Hart:0[0m
+
+Aborted!
+make[1]: *** [Makefile:69: wally32] Error 1
+make: *** [Makefile:16: riscof] Interrupt

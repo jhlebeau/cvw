@@ -1,0 +1,4 @@
+#!/bin/bash
+
+dc_shell-xg-t -64bit -f compile_dc.tcl | tee -i synthesis.log
+

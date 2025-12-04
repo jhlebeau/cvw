@@ -1,0 +1,55 @@
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : top
+Version: W-2024.09-SP5-3
+Date   : Tue Dec  2 11:34:30 2025
+****************************************
+
+
+Library(s) Used:
+
+    osu05_stdcells (File: /rs23/jhl6/open_hw/cvw/tests/tool_tests/osu05_stdcells.db)
+
+
+Operating Conditions: typical   Library: osu05_stdcells
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 5    
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+Attributes
+----------
+i - Including register clock pin internal power
+
+
+  Cell Internal Power  =   5.0232 mW   (77%)
+  Net Switching Power  =   1.5290 mW   (23%)
+                         ---------
+Total Dynamic Power    =   6.5522 mW  (100%)
+
+Cell Leakage Power     =  62.0443 nW
+
+Information: report_power power group summary does not include estimated clock tree power. (PWR-789)
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)  i
+register           0.0000            0.0000            0.0000            0.0000  (   0.00%)
+sequential         4.0182            0.1126           36.2465            4.1308  (  63.04%)
+combinational      1.0050            1.4164           25.7978            2.4215  (  36.96%)
+--------------------------------------------------------------------------------------------------
+Total              5.0232 mW         1.5290 mW        62.0443 nW         6.5523 mW
+1

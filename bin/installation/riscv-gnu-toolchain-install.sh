@@ -50,7 +50,7 @@ cd "$RISCV"
 if check_tool_version $RISCV_GNU_TOOLCHAIN_VERSION; then
     git_checkout "riscv-gnu-toolchain" "https://github.com/riscv/riscv-gnu-toolchain" "$RISCV_GNU_TOOLCHAIN_VERSION"
     cd "$RISCV"/riscv-gnu-toolchain
-    ./configure --prefix="${RISCV}" --with-multilib-generator="rv32e-ilp32e--;rv32i-ilp32--;rv32im-ilp32--;rv32iac-ilp32--;rv32imac-ilp32--;rv32imafc-ilp32f--;rv32imafdc-ilp32d--;rv64i-lp64--;rv64ic-lp64--;rv64iac-lp64--;rv64imac-lp64--;rv64imafdc-lp64d--;rv64im-lp64--;"
+    ./configure --prefix="${RISCV}" --with-multilib-generator="rv32e-ilp32e--;rv32i-ilp32--;rv32im-ilp32--;rv32iac-ilp32--;rv32imac-ilp32--;rv32imafc-ilp32f--;rv32imafdc-ilp32d--;rv32i_zmmul_c-ilp32--;rv32i_zmmul_c_zicsr-ilp32--;rv64i-lp64--;rv64ic-lp64--;rv64iac-lp64--;rv64imac-lp64--;rv64imafdc-lp64d--;rv64im-lp64--;"
     make -j "${NUM_THREADS}" 2>&1 | logger; [ "${PIPESTATUS[0]}" == 0 ]
     if [ "$clean" = true ]; then
         cd "$RISCV"

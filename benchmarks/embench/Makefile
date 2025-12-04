@@ -3,7 +3,11 @@
 # Compile Embench for Wally
 
 embench_dir = ../../addins/embench-iot
-ARCH=rv32imac_zicsr
+#ARCH=rv32imac_zicsr
+ARCH=rv32imc_zicsr
+
+#MARCH=rv32gc
+MARCH=rv32_test
 
 all: build
 run: build size sim
@@ -43,7 +47,7 @@ sim: sim_build_memfile sim_run speed
 
 # launches sim to simulate tests on wally
 sim_run:
-	wsim --sim verilator rv32gc embench --params "BPRED_LOGGER=1\'b1"
+	wsim --sim verilator $(MARCH) embench --params "BPRED_LOGGER=1\'b1"
 
 # builds the objdump based on the compiled c elf files
 objdump:
@@ -65,17 +69,17 @@ spike_run:
 
 # creates the directory to store the results of the embench tests
 actual_embench_results:
-	mkdir -p actual_embench_results
+	mkdir -p actual_embench_results_$(ARCH)
 
 # python wrapper to present results of embench size benchmark
 size: actual_embench_results buildsize
-	$(embench_dir)/benchmark_size.py --builddir=bd_speedopt_size --json-output > actual_embench_results/wallySpeedOpt_size.json
-	$(embench_dir)/benchmark_size.py --builddir=bd_sizeopt_size --json-output > actual_embench_results/wallySizeOpt_size.json
+	$(embench_dir)/benchmark_size.py --builddir=bd_speedopt_size --json-output > actual_embench_results_$(ARCH)_$(MARCH)/wallySpeedOpt_size.json
+	$(embench_dir)/benchmark_size.py --builddir=bd_sizeopt_size --json-output > actual_embench_results_$(ARCH)_$(MARCH)/wallySizeOpt_size.json
 
 # python wrapper to present results of embench speed benchmark
 speed: actual_embench_results
-	$(embench_dir)/benchmark_speed.py --builddir=bd_sizeopt_speed --target-module run_wally --cpu-mhz=1 --json-output > actual_embench_results/wallySizeOpt_speed.json
-	$(embench_dir)/benchmark_speed.py --builddir=bd_speedopt_speed --target-module run_wally --cpu-mhz=1 --json-output > actual_embench_results/wallySpeedOpt_speed.json
+	$(embench_dir)/benchmark_speed.py --builddir=bd_sizeopt_speed --target-module run_wally --cpu-mhz=1 --json-output > actual_embench_results_$(ARCH)_$(MARCH)/wallySizeOpt_speed.json
+	$(embench_dir)/benchmark_speed.py --builddir=bd_speedopt_speed --target-module run_wally --cpu-mhz=1 --json-output > actual_embench_results_$(ARCH)_$(MARCH)/wallySpeedOpt_speed.json
 
 # deletes all files
 clean:

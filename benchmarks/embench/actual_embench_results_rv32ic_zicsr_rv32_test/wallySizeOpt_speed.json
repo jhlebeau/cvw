@@ -1,0 +1,24 @@
+Warning: Run of aha-mont64 failed.
+Warning: Run of crc32 failed.
+Warning: Run of cubic failed.
+Warning: Run of edn failed.
+Warning: Run of huffbench failed.
+Warning: Run of matmult-int failed.
+Warning: Run of md5sum failed.
+Warning: Run of minver failed.
+Warning: Run of nbody failed.
+Warning: Run of nettle-aes failed.
+Warning: Run of nettle-sha256 failed.
+Warning: Run of nsichneu failed.
+Warning: Run of picojpeg failed.
+Warning: Run of primecount failed.
+Warning: Run of qrduino failed.
+Warning: Run of sglib-combined failed.
+Warning: Run of slre failed.
+Warning: Run of st failed.
+Warning: Run of statemate failed.
+Warning: Run of tarfind failed.
+Warning: Run of ud failed.
+Warning: Run of wikisort failed.
+{  "speed results" :
+  { "detailed speed results" :
