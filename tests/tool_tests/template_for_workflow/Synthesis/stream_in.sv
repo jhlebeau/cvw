@@ -1,8 +1,8 @@
-module stream_in (input logic [63:0] data_in, 
+module stream_in (input logic [63:0] data_in,
                   input logic t_valid,
                   input logic clk,
                   input logic resetn,
-                  output logic [63:0] data_out, 
+                  output logic [63:0] data_out,
                   output logic t_ready,
                   output logic valid);
 

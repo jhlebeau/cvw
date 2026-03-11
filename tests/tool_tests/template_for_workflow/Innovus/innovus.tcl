@@ -1,10 +1,10 @@
 ##################################################################
-#                                                     
+#
 #  Innovus Command File - updated Feb. 22, 2018 for ELEC 422/527
 #  Run the design through Innovus for version 14
 #  Minor text typo update Feb. 12, 2019
 #  Minor update for Innovus  Jan. 30, 2024
-#                                                     
+#
 ##################################################################
 # Initializing commands
 set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
@@ -81,13 +81,13 @@ addRing -skip_via_on_wire_shape Noshape -skip_via_on_pin Standardcell -center 1 
 #set sprCreateIeStripeThreshold 1.2
 #setAddStripeMode -stacked_via_top_layer metal3
 #setAddStripeMode -stacked_via_bottom_layer metal1
-#addStripe -skip_via_on_wire_shape Noshape -block_ring_top_layer_limit metal3 -max_same_layer_jog_length 3.6 -snap_wire_center_to_grid Grid -padcore_ring_bottom_layer_limit metal1 -set_to_set_distance 99.9 -skip_via_on_pin Standardcell -padcore_ring_top_layer_limit metal3 -xleft_offset 24 -merge_stripes_value 1.8 -layer metal2 -block_ring_bottom_layer_limit metal1 -width 6.0 -spacing 1.2 -nets {gnd vdd} 
+#addStripe -skip_via_on_wire_shape Noshape -block_ring_top_layer_limit metal3 -max_same_layer_jog_length 3.6 -snap_wire_center_to_grid Grid -padcore_ring_bottom_layer_limit metal1 -set_to_set_distance 99.9 -skip_via_on_pin Standardcell -padcore_ring_top_layer_limit metal3 -xleft_offset 24 -merge_stripes_value 1.8 -layer metal2 -block_ring_bottom_layer_limit metal1 -width 6.0 -spacing 1.2 -nets {gnd vdd}
 
 
 placeDesign
 
 # Special route all of the Power and Ground lines to the rings
-sroute -nets {vdd gnd} 
+sroute -nets {vdd gnd}
 
 saveDesign $init_top_cell.enc
 
@@ -121,5 +121,3 @@ puts "* Type 'win' to get the Main Window  *"
 puts "* Type 'exit' to quit                *"
 puts "*                                    *"
 puts "**************************************"
-
-

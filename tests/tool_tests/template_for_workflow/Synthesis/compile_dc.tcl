@@ -89,8 +89,8 @@ write -f verilog -output $filename
 set filename [format "%s%s"  $my_toplevel ".sdc"]
 write_sdc $filename
 
-report_cell 
-report_area 
+report_cell
+report_area
 report_timing -path full -delay max -max_paths 3 -nworst 1
 report_power
 

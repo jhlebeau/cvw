@@ -15,11 +15,11 @@ module top(input [63:0] data_in,
 
     assign t_last = internal_t_last;
 
-    stream_in my_stream_in(.data_in(data_in), 
+    stream_in my_stream_in(.data_in(data_in),
                   .t_valid(t_valid_in),
                   .clk(clk),
                   .resetn(resetn),
-                  .data_out(processed_data), 
+                  .data_out(processed_data),
                   .t_ready(t_ready),
                   .valid(valid));
 
@@ -42,7 +42,7 @@ module top(input [63:0] data_in,
     always @(posedge clk) begin
         if (t_valid_in | valid) begin
             buffer_in <= processed_data;
-        end 
+        end
     end
 
 

@@ -4,6 +4,7 @@ set partNumber $::env(XILINX_PART)
 set boardName $::env(XILINX_BOARD)
 set boardSubName [lindex [split ${boardName} :] 1]
 set board $::env(board)
+set version $::env(version)
 
 #set partNumber xc7a100tcsg324-1
 #set boardName digilentinc.com:arty-a7-100:part0:1.1
@@ -98,9 +99,11 @@ report_clock_interaction                                                -file re
 write_verilog -force -mode funcsim sim/syn-funcsim.v
 
 if {$board=="ArtyA7"} {
-    #source ../constraints/small-debug.xdc
-    #source ../constraints/small-debug-rvvi.xdc
-    source ../constraints/small-debug-wfi.xdc
+    if {$version == "ArtyA7"} { 
+      #source ../constraints/small-debug.xdc
+      #source ../constraints/small-debug-rvvi.xdc
+      source ../constraints/small-debug-wfi.xdc
+    }
 } elseif {$board=="genesys2"} {
     source ../constraints/small-debug.xdc
 } else {

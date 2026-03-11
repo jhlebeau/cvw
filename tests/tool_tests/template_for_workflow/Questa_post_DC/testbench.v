@@ -96,12 +96,12 @@ in_clka = 0; in_clkb = 0; #10;
 in_clka = 0; in_clkb = 1; #10;
 
 
-$dumpfile ("twoP_FSM_tb.vcd"); 
-$dumpvars; 
+$dumpfile ("twoP_FSM_tb.vcd");
+$dumpvars;
 $display ("in_clka, \t in_clkb, \t in_restart, \t out_odd, \t out_state");
 
-    
+
 $stop;
-end 
+end
 
 endmodule

@@ -51,7 +51,7 @@ This project will be broken across two semesters, and thus I designed a set of g
 
 \subsection{Development Environment Setup}
 
-The initial work in developing WALLY requires a reliable development environment. For this purpose, I set up a Virtual Machine (VM) on the ORION system. This setup is complete, and I am able to see the source files and run verification tests. I created an instructional document detailing the steps required to set up the WALLY project for development for future users. The process was tested by the VLIW Senior Capstone Team, who were able to provide feedback to improve my instructions. 
+The initial work in developing WALLY requires a reliable development environment. For this purpose, I set up a Virtual Machine (VM) on the ORION system. This setup is complete, and I am able to see the source files and run verification tests. I created an instructional document detailing the steps required to set up the WALLY project for development for future users. The process was tested by the VLIW Senior Capstone Team, who were able to provide feedback to improve my instructions.
 The WALLY core itself is available through an open-source GitHub repository [1]. In addition to the GitHub repository, the VM contains open-source and proprietary chip design software. This includes open-source RISC-V compilers, and Verilator, an open-source SystemVerilog simulator. It also includes Questa, Design Compiler, and Vivado, commercial chip design tools. I have verified that all of these tools function in the VM environment, and have created specific setup instructions for Design Compiler, as this requires more work beyond the initial setup.
 
 
@@ -116,7 +116,7 @@ For the speed results, we can see that the IMC extensions allow for the best spe
 \label{fig}
 \end{figure}
 
-Reducing the set from M to Zmmul reduces performance by about 25\%, showing the value of having a divider unit. However, we can also see the standard deviation increases greatly, which makes sense. Only 6 of the 19 embench programs use division if available, meaning that only these programs experience the performance improvement of the divider unit. This causes the resultant performance of the programs to have greater variation. 
+Reducing the set from M to Zmmul reduces performance by about 25\%, showing the value of having a divider unit. However, we can also see the standard deviation increases greatly, which makes sense. Only 6 of the 19 embench programs use division if available, meaning that only these programs experience the performance improvement of the divider unit. This causes the resultant performance of the programs to have greater variation.
 
 The 6 programs that use division are cubic, minver, nbody, st, tarfind, and wikisort. Comparing the speed results of these programs with and without the use of a divider unit, we can see execution speed is reduced by a factor of 2.2-3.9, depending on the specific program and how frequently the division instruction is used.
 

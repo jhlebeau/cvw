@@ -68,6 +68,29 @@ EXT_MEM_RANGE       64'h3FFFFFFF
 deriv fpgavcu108 fpga
 EXT_MEM_RANGE       64'h7FFFFFFF
 
+# buildroot for RV32IMC
+deriv   buildroot_imc   rv32imc
+RESET_VECTOR        64'hB000
+UNCORE_RAM_RANGE    64'h0FFFFFFF
+UNCORE_RAM_PRELOAD  1
+GPIO_LOOPBACK_TEST  0
+SPI_LOOPBACK_TEST   0
+UART_PRESCALE       32'd0
+PLIC_NUM_SRC        32'd53
+
+# fpga is used for FPGA hardware (RV32IMC)
+deriv fpgaArty_imc  buildroot_imc
+DTIM_SUPPORTED      1
+DTIM_BASE           32'h8000
+DTIM_RANGE          32'h3FFF
+IROM_SUPPORTED      1
+IROM_BASE           32'hB000
+IROM_RANGE          32'h3FFF
+EXT_MEM_SUPPORTED   0
+SDC_SUPPORTED       1
+PLIC_SDC_ID         32'd20
+BPRED_SIZE          32'd12
+
 # temporary spitest configuration
 deriv spitest rv64gc
 UNCORE_RAM_RANGE    64'h0FFFFFFF
@@ -110,6 +133,14 @@ deriv syn_sram_rv32imc rv32imc syn_sram_rv32e
 deriv syn_sram_rv32gc rv32gc syn_sram_rv32e
 deriv syn_sram_rv64i rv64i syn_sram_rv32e
 deriv syn_sram_rv64gc rv64gc syn_sram_rv32e
+
+#MY ADDITION: add Zmmul option by turning on Zmmul, and IC option
+deriv syn_rv32ic_Zmmul rv32imc syn_rv32e
+M_SUPPORTED         0
+
+deriv syn_rv32ic rv32imc syn_rv32e
+M_SUPPORTED         0
+ZMMUL_SUPPORTED     0
 
 # The following syn configurations gradually turn off features
 deriv syn_rv64gc_pmp0 syn_rv64gc

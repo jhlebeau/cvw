@@ -46,7 +46,7 @@ always @(posedge clk) begin
     end else begin
         out_valid <= 1'b0;
         t_keep <= 1'b0;
-        
+
         case (state)
             FILL: begin
                 if (valid) begin
@@ -61,11 +61,11 @@ always @(posedge clk) begin
                 if (bytes_stored >= 6'd2 && |({read_byte(read_ptr), read_byte((read_ptr + 6'd1) & 6'h1F)})) begin
                     // read length
                     msg_len <= {read_byte(read_ptr), read_byte((read_ptr + 6'd1) & 6'h1F)};
-                    
+
                     // move read pointer
                     read_ptr <= (read_ptr + 6'd2) & 6'h1F;
                     bytes_stored <= bytes_stored - 6'd2;
-                    
+
                     state <= READ_DATA;
                 end
             end
@@ -74,10 +74,10 @@ always @(posedge clk) begin
                 // determine how many bytes to output this cycle
                 logic can_output;
                 logic [5:0] bytes_to_consume;
-                
+
                 can_output = 1'b0;
                 bytes_to_consume = 6'd0;
-                
+
                 if (msg_len >= 16'd8 && bytes_stored >= 6'd8) begin
                     // full 8 byte output
                     can_output = 1'b1;
@@ -87,7 +87,7 @@ always @(posedge clk) begin
                     can_output = 1'b1;
                     bytes_to_consume = msg_len[5:0];
                 end
-                
+
                 if (can_output) begin
                     // read 8 bytes for output (for last send, set t_keep to indicate garbage at end)
                     data_out <= {
@@ -101,12 +101,12 @@ always @(posedge clk) begin
                         read_byte((read_ptr + 6'd7) & 6'h1F)
                     };
                     out_valid <= 1'b1;
-                    
+
                     // update pointers based on actual bytes consumed
                     read_ptr <= (read_ptr + bytes_to_consume) & 6'h1F;
                     bytes_stored <= bytes_stored - bytes_to_consume;
                     msg_len <= msg_len - {10'd0, bytes_to_consume};
-                    
+
                     // check if message is complete, set last and keep
                     if (msg_len <= {10'd0, bytes_to_consume}) begin
                         state <= READ_LEN;
@@ -118,7 +118,7 @@ always @(posedge clk) begin
 
             default: state <= FILL;
         endcase
-        
+
         // Write incoming data to buffer
         if (valid) begin
             if (first_cycle) begin
