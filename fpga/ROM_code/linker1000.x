@@ -16,7 +16,7 @@ SECTIONS
   }
 
   /* Read-only data */
-  . = ALIGN(0x1000); /* Align to page for rodata */
+  . = ALIGN(4); /* Keep rodata in BOOTROM range, not pushed to DTIM at 0x3000 */
   .rodata :
   {
     *(.rodata .rodata.* .gnu.linkonce.r.*)

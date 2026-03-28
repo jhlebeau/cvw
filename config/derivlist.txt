@@ -83,7 +83,7 @@ deriv fpgaArty_imc  buildroot_imc
 DTIM_SUPPORTED      1
 DTIM_BASE           64'h00003000
 DTIM_RANGE          64'h00001FFF
-IROM_SUPPORTED      1
+IROM_SUPPORTED      0
 IROM_BASE           64'h00001000
 IROM_RANGE          64'h00001FFF
 BOOTROM_SUPPORTED   1
