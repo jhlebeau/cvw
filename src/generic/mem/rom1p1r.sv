@@ -63,6 +63,9 @@ module rom1p1r #(parameter ADDR_WIDTH = 8, DATA_WIDTH = 32, PRELOAD_ENABLED = 0)
         `endif
       end else begin // put something in the ROM so it is not optimized away
         ROM[0] = 'h00002197;
+        if (BOOT_32_BIT) begin
+            $readmemh({"$WALLY/fpga/src/boot.mem"}, ROM, 0);
+        end
       end
     end
 
