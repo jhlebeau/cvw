@@ -37,9 +37,6 @@ localparam MISA = {6'b0, 5'b0, U_SUPPORTED, 1'b0, S_SUPPORTED, 1'b0, Q_SUPPORTED
 // logarithm of XLEN, used for number of index bits to select
 localparam LOG_XLEN = (XLEN == 32 ? 32'd5 : 32'd6);
 
-// Check if boot.mem and data.mem are 32 bit
-localparam BOOT_32_BIT = 1;
-
 // Number of 64 bit PMP Configuration Register entries (or pairs of 32 bit entries)
 localparam PMPCFG_ENTRIES = (PMP_ENTRIES/32'd8);
 
