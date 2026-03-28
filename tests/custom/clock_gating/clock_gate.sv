@@ -14,15 +14,15 @@ module clock_gate (
       input logic clk_in,
       input logic enable,
       output logic clk_out);
-      
+
       logic latched_enable;
-      
+
       assign clk_out = latched_enable & clk_in;
-      
+
       always_latch begin
         if (~clk_in) begin
           latched_enable = enable;
         end
       end
-      
+
 endmodule

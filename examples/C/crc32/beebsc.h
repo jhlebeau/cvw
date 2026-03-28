@@ -32,7 +32,7 @@
    The full complexity of assert is not needed for a benchmark. See the
    discussion at:
 
-   https://lists.librecores.org/pipermail/embench/2019-August/000007.html 
+   https://lists.librecores.org/pipermail/embench/2019-August/000007.html
 
    This function just*/
 

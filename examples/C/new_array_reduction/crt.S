@@ -114,15 +114,15 @@ _start:
 
   # for now, assume only 1 core
 	li a1, 1
-  csrr a0, mhartid	
+  csrr a0, mhartid
 1:bgeu a0, a1, 1b
 #define STKSHIFT 17
-	
+
   add sp, a0, 1
   slli sp, sp, STKSHIFT
   add sp, sp, tp
   slli a2, a0, STKSHIFT
-  add tp, tp, a2	
+  add tp, tp, a2
 
   # give each core 128KB of stack + TLS
 #define STKSHIFT 17
@@ -135,7 +135,7 @@ _start:
 	call main
 1:	j 1b
 
- 
+
 
 .section ".tohost","aw",@progbits
 .align 6

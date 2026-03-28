@@ -34,7 +34,7 @@
 file_name=$1
 
 # set first K lines:
-K=512
+K=2048
 
 # line count (N):
 N=$(wc -l < $file_name)

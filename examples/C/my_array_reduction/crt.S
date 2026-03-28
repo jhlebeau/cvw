@@ -126,7 +126,7 @@ _start:
 
   j main
 
- 
+
 
 .section ".tohost","aw",@progbits
 .align 6

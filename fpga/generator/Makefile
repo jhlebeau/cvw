@@ -76,7 +76,7 @@ IP_VCU: $(dst)/sysrst.log \
 	MEM_VCU \
 	$(dst)/clkconverter.log \
 	$(dst)/ahbaxibridge.log
- 
+
 IP_Arty: $(dst)/sysrst.log \
 	MEM_Arty \
 	$(dst)/mmcm.log \
@@ -120,7 +120,7 @@ PreProcessFiles:
 zsbl:
 	$(MAKE) -C ../zsbl clean
 	SYSTEMCLOCK=$(SYSTEMCLOCK) EXT_MEM_BASE=$(EXT_MEM_BASE) EXT_MEM_RANGE=$(EXT_MEM_RANGE) $(MAKE) -C ../zsbl
- 
+
 # for my testing, replace zsbl with my code
 .PHONY: code
 code:

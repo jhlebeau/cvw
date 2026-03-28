@@ -44,7 +44,7 @@ module tb_clock_gate;
         #3;
         $display("[%0t] enable -> 1 (clk HIGH)", $time);
         enable = 1;
-        
+
         // test enable during clk high
         #15;
         enable = 0;
