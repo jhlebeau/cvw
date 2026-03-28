@@ -24,7 +24,16 @@ extern volatile uint64_t fromhost;
 
 void uartInit(void) {
   volatile uint8_t *UART_LCR = (uint8_t*)0x10000003;
-  *UART_LCR = 0b0000011; // 8-bit characters, 1 stop bit, no parity
+  volatile uint8_t *UART_DLL = (uint8_t*)0x10000000;
+  volatile uint8_t *UART_DLM = (uint8_t*)0x10000001;
+
+  // Set DLAB (bit 7) to access divisor latch registers
+  *UART_LCR = 0x80 | 0b0000011;
+  // Divisor = SYSCLK / (baud * 16) = 20,000,000 / (115200 * 16) = 10.85 -> 11
+  *UART_DLL = 11;
+  *UART_DLM = 0;
+  // Clear DLAB, leaving 8-bit, 1 stop bit, no parity
+  *UART_LCR = 0b0000011;
 }
 
 void uartSend(char c) {

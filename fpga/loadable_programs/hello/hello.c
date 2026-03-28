@@ -17,6 +17,7 @@
 #include <stdio.h>
 
 int main(void) {
+    uartInit();
     printf("Hello Wally!\n\r");
     for (int i = 0; i < 10; i++) {
         printf("%d ", i);
