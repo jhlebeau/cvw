@@ -28,7 +28,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 module rom_ahb import cvw::*;  #(parameter cvw_t P,
-                                 parameter RANGE = 65535, PRELOAD = 0) (
+                                 parameter RANGE = 65535, PRELOAD = 0,
+                                 parameter logic [63:0] BASE = '0) (
   input  logic                 HCLK, HRESETn,
   input  logic                 HSELRom,
   input  logic [P.PA_BITS-1:0] HADDR,
@@ -38,8 +39,11 @@ module rom_ahb import cvw::*;  #(parameter cvw_t P,
   output logic                 HRESPRom, HREADYRom
 );
 
-  localparam ADDR_WIDTH = $clog2(RANGE/8);
+  // RANGE/(XLEN/8): correct word count for any XLEN (was RANGE/8, which only worked for RV64)
+  localparam ADDR_WIDTH = $clog2(RANGE/(P.XLEN/8));
   localparam OFFSET     = $clog2(P.XLEN/8);
+  // Subtract BASE so ROM[0] maps to BASE, not address 0
+  localparam [ADDR_WIDTH-1:0] BASE_WORD = BASE[ADDR_WIDTH+OFFSET-1:OFFSET];
 
   // Never stalls
   assign HREADYRom = 1'b1;
@@ -47,5 +51,5 @@ module rom_ahb import cvw::*;  #(parameter cvw_t P,
 
   // single-ported ROM
   rom1p1r #(ADDR_WIDTH, P.XLEN, PRELOAD)
-    memory(.clk(HCLK), .ce(1'b1), .addr(HADDR[ADDR_WIDTH+OFFSET-1:OFFSET]), .dout(HREADRom));
+    memory(.clk(HCLK), .ce(1'b1), .addr(HADDR[ADDR_WIDTH+OFFSET-1:OFFSET] - BASE_WORD), .dout(HREADRom));
 endmodule

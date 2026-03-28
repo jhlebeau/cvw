@@ -42,7 +42,10 @@ module irom import cvw::*;  #(parameter cvw_t P) (
 
   // preload IROM with the FPGA bootloader by default so that it synthesizes to something, avoiding having the IEU optimized away because instructions are all 0
   // the testbench replaces these dummy contents with the actual program of interest during simulation
-  rom1p1r #(ADDR_WDITH, P.XLEN, 1) rom(.clk, .ce, .addr(Adr[ADDR_WDITH+OFFSET-1:OFFSET]), .dout(IROMInstrFFull));
+  // Subtract IROM_BASE so ROM[0] maps to IROM_BASE, not address 0.
+  // (For RV64 with IROM_BASE=0x80000000 the base bits fall above the index range so this is zero; for RV32 with IROM_BASE=0x1000 it is non-zero.)
+  localparam [ADDR_WDITH-1:0] IROM_BASE_WORD = P.IROM_BASE[ADDR_WDITH+OFFSET-1:OFFSET];
+  rom1p1r #(ADDR_WDITH, P.XLEN, 1) rom(.clk, .ce, .addr(Adr[ADDR_WDITH+OFFSET-1:OFFSET] - IROM_BASE_WORD), .dout(IROMInstrFFull));
   if (P.XLEN == 32) assign RawIROMInstrF = IROMInstrFFull;
   else              begin
   // IROM is aligned to XLEN words, but instructions are 32 bits.  Select between the two

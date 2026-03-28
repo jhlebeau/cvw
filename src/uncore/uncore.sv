@@ -115,7 +115,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
   end else assign {HREADRam, HRESPRam, HREADYRam} = '0;
 
  if (P.BOOTROM_SUPPORTED) begin : bootrom
-    rom_ahb #(.P(P), .RANGE(P.BOOTROM_RANGE), .PRELOAD(P.BOOTROM_PRELOAD))
+    rom_ahb #(.P(P), .RANGE(P.BOOTROM_RANGE), .PRELOAD(P.BOOTROM_PRELOAD), .BASE(P.BOOTROM_BASE))
     bootrom(.HCLK, .HRESETn, .HSELRom(HSELBootRom), .HADDR, .HREADY, .HTRANS,
       .HREADRom(HREADBootRom), .HRESPRom(HRESPBootRom), .HREADYRom(HREADYBootRom));
   end else assign {HREADBootRom, HRESPBootRom, HREADYBootRom} = '0;
