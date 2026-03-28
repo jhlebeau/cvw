@@ -15,6 +15,7 @@
 // simulate in Spike with: spike hello
 
 #include <stdio.h>
+void uartInit(void);
 
 int main(void) {
     uartInit();

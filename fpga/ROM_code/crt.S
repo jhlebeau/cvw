@@ -112,25 +112,10 @@ _start:
   la  tp, _end + 63
   and tp, tp, -64
 
-  # for now, assume only 1 core
-	li a1, 1
-  csrr a0, mhartid
-1:bgeu a0, a1, 1b
-#define STKSHIFT 17
-
-  add sp, a0, 1
-  slli sp, sp, STKSHIFT
-  add sp, sp, tp
-  slli a2, a0, STKSHIFT
-  add tp, tp, a2
-
-  # give each core 128KB of stack + TLS
-#define STKSHIFT 17
-  addi sp, a0, 1
-  slli sp, sp, STKSHIFT
-  add sp, sp, tp
-  sll a2, a0, STKSHIFT
-  add tp, tp, a2
+  # Set stack pointer to top of DTIM (DTIM_BASE=0x3000, DTIM_RANGE=0x1FFF -> top=0x5000)
+  # The default crt.S stack of tp+128KB lands at ~0x23000, well outside DTIM,
+  # causing silent store failures and corrupted return addresses.
+  li sp, 0x5000
 
 	call main
 1:	j 1b
