@@ -39,7 +39,7 @@ SECTIONS
     PROVIDE(__global_pointer$ = . + 0x800);
     *(.sdata .sdata.* .gnu.linkonce.s.*)
   }
-  _edata = .; 
+  _edata = .;
   PROVIDE(edata = .);
 
   /* Thread Local Storage */
@@ -71,7 +71,7 @@ SECTIONS
     *(.bss .bss.* .gnu.linkonce.b.*)
     *(COMMON)
   }
-  _end = .; 
+  _end = .;
   PROVIDE(end = .);
 
   /* Discard unnecessary sections */
