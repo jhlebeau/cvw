@@ -208,6 +208,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
   logic            mmcm_locked;
   logic [11:0]     device_temp;
   logic            mmcm1_locked;
+  logic            soc_reset_locked;
 
 (* mark_debug = "true" *)  logic              RVVIStall;
 
@@ -216,6 +217,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
   assign ahblite_resetn = peripheral_aresetn;
   assign cpu_reset = bus_struct_reset;
   assign calib = c0_init_calib_complete;
+  assign soc_reset_locked = P.EXT_MEM_SUPPORTED ? c0_init_calib_complete : mmcm1_locked;
 
   logic [3:0] SDCCSin;
   assign SDCCS = SDCCSin[0];
@@ -243,7 +245,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
      .ext_reset_in(1'b0),
      .aux_reset_in(south_reset),
      .mb_debug_sys_rst(1'b0),
-     .dcm_locked(c0_init_calib_complete),
+     .dcm_locked(soc_reset_locked),
      .mb_reset(mb_reset),  //open
      .bus_struct_reset(bus_struct_reset),
      .peripheral_reset(peripheral_reset), //open

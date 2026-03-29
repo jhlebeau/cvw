@@ -61,11 +61,13 @@ _start:
   j 2b
 1:
 
-#ifdef __riscv_flen
-  # initialize FPU if we have one
+  # Always initialize mtvec so early traps have a defined machine-mode handler,
+  # even in non-FPU builds where the old code skipped this setup.
   la t0, 1f
   csrw mtvec, t0
 
+#ifdef __riscv_flen
+  # initialize FPU if we have one
   fssr    x0
   fmv.s.x f0, x0
   fmv.s.x f1, x0
