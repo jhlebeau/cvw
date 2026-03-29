@@ -6,6 +6,13 @@ set boardSubName [lindex [split ${boardName} :] 1]
 set board $::env(board)
 set version $::env(version)
 
+set do_archive 0
+if {[llength $argv] > 0} {
+    if {[lsearch $argv "archive"] != -1} {
+        set do_archive 1
+    }
+}
+
 #set partNumber xc7a100tcsg324-1
 #set boardName digilentinc.com:arty-a7-100:part0:1.1
 #set boardSubName arty-a7-100
@@ -137,3 +144,15 @@ check_timing                                                              -file 
 report_timing -max_paths 10 -nworst 10 -delay_type max -sort_by slack     -file reports/imp_timing_WORST_10.rpt
 report_timing -nworst 1 -delay_type max -sort_by group                    -file reports/imp_timing.rpt
 report_utilization -hierarchical                                          -file reports/imp_utilization.rpt
+
+#check archive
+if {$do_archive} {
+    #do archive
+    set timestamp [clock format [clock seconds] -format "%m%d_%H%M"]
+    set archive_name "WALLY_FPGA_${timestamp}.zip"
+    set archive_path [file normalize "../../../$archive_name"]
+
+    archive_project $archive_path \
+        -force \
+        -include_config_settings
+}

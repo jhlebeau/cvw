@@ -95,7 +95,7 @@ module ram1p1rwbe import cvw::*; #(parameter USE_SRAM=0, DEPTH=64, WIDTH=44, PRE
 
     initial
       if (PRELOAD_ENABLED) begin
-        if (WIDTH == 64) begin
+        if (WIDTH == 64 || WIDTH == 32) begin
           `ifdef VERILATOR
             // because Verilator doesn't automatically accept $WALLY from shell
             string       WALLY_DIR = getenvval("WALLY");

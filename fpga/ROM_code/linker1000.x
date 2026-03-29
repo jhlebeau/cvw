@@ -2,10 +2,14 @@ OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv", "elf32-littleriscv")
 OUTPUT_ARCH(riscv)
 ENTRY(_start)
 
+BOOTROM_BASE = 0x00001000;
+BOOTROM_LIMIT = 0x00003000;
+DTIM_BASE = 0x00003000;
+
 SECTIONS
 {
   /* Starting at 0x1000 to match bootROM location */
-  . = 0x00001000;
+  . = BOOTROM_BASE;
 
   .text :
   {
@@ -22,9 +26,12 @@ SECTIONS
     *(.rodata .rodata.* .gnu.linkonce.r.*)
     *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
   }
+  __bootrom_end = .;
+  ASSERT(__bootrom_end <= BOOTROM_LIMIT,
+         "BootROM overflow: .text/.rodata exceed 0x2fff; image no longer fits before DTIM at 0x3000")
 
   /* Data segment */
-  . = ALIGN(0x1000);
+  . = DTIM_BASE;
   _data_start = .;
   .data :
   {

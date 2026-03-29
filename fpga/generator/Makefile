@@ -63,7 +63,7 @@ EXT_MEM_RANGE = $(shell grep 'EXT_MEM_RANGE' ../../config/deriv/fpga$(version)/c
 FPGA_Arty: PreProcessFiles IP_Arty zsbl
 	vivado -mode tcl -source wally.tcl 2>&1 | tee wally.log
 FPGA_Arty_IMC: PreProcessFiles IP_Arty code
-	vivado -mode tcl -source wally.tcl 2>&1 | tee wally.log
+	vivado -mode tcl -source wally.tcl -tclargs archive 2>&1 | tee wally.log
 FPGA_VCU: PreProcessFiles IP_VCU zsbl
 	vivado -mode tcl -source wally.tcl 2>&1 | tee wally.log
 
