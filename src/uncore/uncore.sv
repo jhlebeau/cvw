@@ -109,7 +109,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
 
   // on-chip RAM
   if (P.UNCORE_RAM_SUPPORTED) begin : ram
-    ram_ahb #(.P(P), .RANGE(P.UNCORE_RAM_RANGE), .PRELOAD(P.UNCORE_RAM_PRELOAD)) ram (
+    ram_ahb #(.P(P), .RANGE(P.UNCORE_RAM_RANGE), .PRELOAD(P.UNCORE_RAM_PRELOAD), .BASE(P.UNCORE_RAM_BASE)) ram (
       .HCLK, .HRESETn, .HSELRam, .HADDR, .HWRITE, .HREADY,
       .HTRANS, .HWDATA, .HWSTRB, .HREADRam, .HRESPRam, .HREADYRam);
   end else assign {HREADRam, HRESPRam, HREADYRam} = '0;

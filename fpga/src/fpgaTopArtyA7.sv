@@ -80,6 +80,8 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
    output logic [0:0]    ddr3_odt
    );
 
+  `include "parameter-defs.vh"
+
   // MMCM Signals
   logic          CPUCLK;
   logic          c0_ddr4_ui_clk_sync_rst;
@@ -92,13 +94,13 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
   // AHB Signals from Wally
   logic            HCLKOpen;
   logic            HRESETnOpen;
-  logic [63:0]     HRDATAEXT;
+  logic [P.AHBW-1:0] HRDATAEXT;
   logic            HREADYEXT;
   logic            HRESPEXT;
   logic            HSELEXT;
-  logic [55:0]     HADDR;
-  logic [63:0]     HWDATA;
-  logic [64/8-1:0] HWSTRB;
+  logic [P.PA_BITS-1:0] HADDR;
+  logic [P.AHBW-1:0] HWDATA;
+  logic [P.XLEN/8-1:0] HWSTRB;
   logic            HWRITE;
   logic [2:0]      HSIZE;
   logic [2:0]      HBURST;
@@ -247,8 +249,6 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
      .peripheral_reset(peripheral_reset), //open
      .interconnect_aresetn(interconnect_aresetn), //open
      .peripheral_aresetn(peripheral_aresetn));
-
-  `include "parameter-defs.vh"
 
   // Wally
   wallypipelinedsoc  #(P)
