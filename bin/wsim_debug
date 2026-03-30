@@ -33,6 +33,8 @@ def parseArgs():
                         help="Waveform output mode for debug runs (default: vcd)")
     parser.add_argument("--wave-out", default="",
                         help="Optional destination path for archived VCD (default: sim/<sim>/logs/<cfg>_<test>.vcd)")
+    parser.add_argument("--run-ns", type=int, default=0,
+                        help="Stop simulation after the given number of nanoseconds (0 means run to completion)")
     parser.add_argument("--lockstep", "-l", help="Run ImperasDV lock, step, and compare.", action="store_true")
     parser.add_argument("--lockstepverbose", "-lv", help="Run ImperasDV lock, step, and compare with tracing enabled", action="store_true")
     parser.add_argument("--rvvi", "-r", help="Simulate rvvi hardware interface and ethernet.", action="store_true")
@@ -57,6 +59,9 @@ def validateArgs(args):
         sys.exit(1)
     elif args.tb == "testbench_fp" and args.sim != "questa":
         print("Error: testbench_fp presently only supported by Questa, not VCS or Verilator, because of a touchy testbench")
+        sys.exit(1)
+    elif args.run_ns < 0:
+        print("Error: --run-ns must be >= 0")
         sys.exit(1)
 
 
@@ -130,6 +135,8 @@ def prepSim(args, ElfFile):
     #     defineList.append("+define+FCOV")
     if args.gui:
         flagsList.append("--gui")
+    if args.run_ns > 0 and args.sim == "questa":
+        flagsList.append(f"--run-ns {args.run_ns}")
     if args.lockstep or args.lockstepverbose:
         flagsList.append("--lockstep")
         prefix += lockstepSetup(args)
@@ -221,7 +228,7 @@ def main(args):
     validateArgs(args)
     print(
         f"Config={args.config} tests={args.testsuite} sim={args.sim} gui={args.gui} "
-        f"args='{args.args}' params='{args.params}' define='{args.define}' wave='{args.wave}'"
+        f"args='{args.args}' params='{args.params}' define='{args.define}' wave='{args.wave}' run_ns='{args.run_ns}'"
     )
     ElfFile = elfFileCheck(args)
     flags, prefix, want_vcd = prepSim(args, ElfFile)

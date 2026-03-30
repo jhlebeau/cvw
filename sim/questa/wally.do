@@ -74,6 +74,7 @@ set SVLib ""
 
 set GUI 0
 set accFlag ""
+set RUN_NS 0
 
 # Need to be able to pass arguments to vopt.  Unfortunately argv does not work because
 # it takes on different values if vsim and the do file are called from the command line or
@@ -106,6 +107,13 @@ if {[lcheck lst "--gui"]} {
 if {[lcheck lst "--vcd"]} {
     set VCD 1
     set accFlag "+acc"
+}
+
+# if --run-ns found set runtime limit and remove from list
+set RunNsIndex [lsearch -exact $lst "--run-ns"]
+if {$RunNsIndex >= 0} {
+    set RUN_NS [lindex $lst [expr {$RunNsIndex + 1}]]
+    set lst [lreplace $lst $RunNsIndex [expr {$RunNsIndex + 1}]]
 }
 
 # if --ccov found set flag and remove from list
@@ -177,6 +185,7 @@ if {$DEBUG > 0} {
     echo "lockstep = $lockstep"
     echo "FunctCoverage = $FunctCoverage"
     echo "Breker = $breker"
+    echo "RUN_NS = $RUN_NS"
     echo "remaining list = $lst"
     echo "Extra +args = $PlusArgs"
     echo "Extra params = $ExpandedParamArgs"
@@ -216,7 +225,11 @@ if {$FunctCoverage} {
     coverage save -onexit ${UCDB}
 }
 
-run -all
+if {$RUN_NS > 0} {
+    run ${RUN_NS} ns
+} else {
+    run -all
+}
 
 if {$ccov} {
     set UCDB ${WALLY}/sim/questa/ucdb/${CFG}_${TESTSUITE}.ucdb
