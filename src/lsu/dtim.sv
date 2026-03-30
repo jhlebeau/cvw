@@ -43,13 +43,16 @@ module dtim import cvw::*;  #(parameter cvw_t P) (
 
   localparam LLENBYTES  = P.LLEN/8;
   // verilator  lint_off WIDTH
-  localparam DEPTH      = P.DTIM_RANGE/LLENBYTES;
+  localparam DEPTH      = (P.DTIM_RANGE + 1) / LLENBYTES;
   // verilator  lint_on WIDTH
   localparam ADDR_WDITH = $clog2(DEPTH);
   localparam OFFSET     = $clog2(LLENBYTES);
+  localparam [ADDR_WDITH-1:0] DTIM_BASE_WORD = P.DTIM_BASE[ADDR_WDITH+OFFSET-1:OFFSET];
 
   assign we = MemRWM[0]  & ~FlushW;  // have to ignore write if Trap.
 
-  ram1p1rwbe #(.USE_SRAM(P.USE_SRAM), .DEPTH(DEPTH), .WIDTH(P.LLEN))
-    ram(.clk, .ce, .we, .bwe(ByteMaskM), .addr(DTIMAdr[ADDR_WDITH+OFFSET-1:OFFSET]), .dout(ReadDataWordM), .din(WriteDataM));
+  ram1p1rwbe #(.USE_SRAM(P.USE_SRAM), .DEPTH(DEPTH), .WIDTH(P.LLEN), .PRELOAD_ENABLED(1))
+    ram(.clk, .ce, .we, .bwe(ByteMaskM),
+        .addr(DTIMAdr[ADDR_WDITH+OFFSET-1:OFFSET] - DTIM_BASE_WORD),
+        .dout(ReadDataWordM), .din(WriteDataM));
 endmodule

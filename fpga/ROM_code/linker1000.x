@@ -19,20 +19,20 @@ SECTIONS
     *(.fini)
   }
 
-  /* Read-only data */
-  . = ALIGN(4); /* Keep rodata in BOOTROM range, not pushed to DTIM at 0x3000 */
+  __bootrom_end = .;
+  ASSERT(__bootrom_end <= BOOTROM_LIMIT,
+         "BootROM overflow: .text exceeds 0x2fff; image no longer fits before DTIM at 0x3000")
+
+  /* Data segment — must be in DTIM (0x3000+), not IROM.
+   * The IROM is instruction-fetch-only hardware; data loads to 0x1000-0x2FFF
+   * stall the AHB bus permanently because uncore.sv has no HREADY response for HSELIROM. */
+  . = DTIM_BASE;
+  _data_start = .;
   .rodata :
   {
     *(.rodata .rodata.* .gnu.linkonce.r.*)
     *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
   }
-  __bootrom_end = .;
-  ASSERT(__bootrom_end <= BOOTROM_LIMIT,
-         "BootROM overflow: .text/.rodata exceed 0x2fff; image no longer fits before DTIM at 0x3000")
-
-  /* Data segment */
-  . = DTIM_BASE;
-  _data_start = .;
   .data :
   {
     *(.data .data.* .gnu.linkonce.d.*)
