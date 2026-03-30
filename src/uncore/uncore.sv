@@ -90,12 +90,17 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
   logic                        HRESPBRIDGE, HREADYBRIDGE, HSELBRIDGE, HSELBRIDGED;
   /* SDC Interrupt (SPI Controller) */
   logic                        SDCIntr;
+  logic                        AccessRW, AccessRX, AccessRWXC;
 
 
-  // Determine which region of physical memory (if any) is being accessed
-  // Use a trimmed down portion of the PMA checker - only the address decoders
-  // Set access types to all 1 as don't cares because the MMU has already done access checking
-  adrdecs #(P) adrdecs(HADDR, 1'b1, 1'b1, 1'b1, HSIZE[1:0], HSELRegions);
+  // Determine which region of physical memory (if any) is being accessed.
+  // Decode only active transfers (HTRANS[1]==1). Read-only regions (IROM/BOOTROM)
+  // must only decode on reads; otherwise writes can select an unimplemented slave
+  // path and hold HREADY low.
+  assign AccessRW   = HTRANS[1];
+  assign AccessRWXC = HTRANS[1];
+  assign AccessRX   = HTRANS[1] & ~HWRITE;
+  adrdecs #(P) adrdecs(HADDR, AccessRW, AccessRX, AccessRWXC, HSIZE[1:0], HSELRegions);
 
   // unswizzle HSEL signals
   assign {HSELSPI, HSELSDC, HSELPLIC, HSELUART, HSELGPIO, HSELCLINT, HSELRam, HSELBootRom, HSELEXT, HSELIROM, HSELDTIM} = HSELRegions[11:1];
