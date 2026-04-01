@@ -12,7 +12,8 @@ ENTRY(_start)
  */
 IROM_BASE  = 0x00001000;
 IROM_LIMIT = 0x00003000;
-DTIM_BASE     = 0x00003000;
+DTIM_BASE  = 0x00003000;
+DTIM_LIMIT = 0x00005000;
 
 SECTIONS
 {
@@ -29,7 +30,7 @@ SECTIONS
 
   __IROM_end = .;
   ASSERT(__IROM_end <= IROM_LIMIT,
-         "IROM overflow: .text exceeds 0x2fff; image no longer fits before DTIM at 0x4000")
+         "IROM overflow: .text exceeds 0x1fff; image no longer fits before DTIM at 0x4000")
 
   /* Data segment — must be in DTIM (0x4000+), not IROM.
    * The IROM is instruction-fetch-only hardware; data loads/stores in IROM
@@ -86,6 +87,11 @@ SECTIONS
     *(.bss .bss.* .gnu.linkonce.b.*)
     *(COMMON)
   }
+  
+  __DTIM_end = .;
+  ASSERT(__DTIM_end <= DTIM_LIMIT,
+         "DTIM overflow: .text exceeds 0x1fff; image no longer fits")
+  
   _end = .;
   PROVIDE(end = .);
 
