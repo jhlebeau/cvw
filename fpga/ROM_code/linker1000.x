@@ -7,17 +7,17 @@ ENTRY(_start)
  * BASE must be aligned to (RANGE+1) for intuitive contiguous regions.
  *
  * Chosen map:
- *   IROM (execute-only): 0x0000_0000 - 0x0000_3FFF  (RESET at 0x1000)
- *   DTIM (read/write):   0x0000_4000 - 0x0000_5FFF
+ *   IROM (execute-only): 0x0000_1000 - 0x0000_1FFF  (RESET at 0x1000)
+ *   DTIM (read/write):   0x0000_3000 - 0x0000_1FFF
  */
-BOOTROM_BASE  = 0x00001000;
-BOOTROM_LIMIT = 0x00004000;
-DTIM_BASE     = 0x00004000;
+IROM_BASE  = 0x00001000;
+IROM_LIMIT = 0x00003000;
+DTIM_BASE     = 0x00003000;
 
 SECTIONS
 {
-  /* Starting at 0x1000 to match bootROM location */
-  . = BOOTROM_BASE;
+  /* Starting at 0x1000 to match IROM location */
+  . = IROM_BASE;
 
   .text :
   {
@@ -27,9 +27,9 @@ SECTIONS
     *(.fini)
   }
 
-  __bootrom_end = .;
-  ASSERT(__bootrom_end <= BOOTROM_LIMIT,
-         "IROM overflow: .text exceeds 0x3fff; image no longer fits before DTIM at 0x4000")
+  __IROM_end = .;
+  ASSERT(__IROM_end <= IROM_LIMIT,
+         "IROM overflow: .text exceeds 0x2fff; image no longer fits before DTIM at 0x4000")
 
   /* Data segment — must be in DTIM (0x4000+), not IROM.
    * The IROM is instruction-fetch-only hardware; data loads/stores in IROM

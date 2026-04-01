@@ -223,6 +223,14 @@ add wave -noupdate -expand -group lsu /testbench/dut/core/lsu/ReadDataWordMuxM
 add wave -noupdate -expand -group lsu -group stalls /testbench/dut/core/lsu/bus/dcache/dcache/CacheStall
 add wave -noupdate -expand -group lsu -group stalls /testbench/dut/core/lsu/SelHPTW
 add wave -noupdate -expand -group lsu -group stalls /testbench/dut/core/lsu/LSUStallM
+add wave -noupdate -expand -group lsu -group DTIM /testbench/dut/core/lsu/dtim/dtim/MemRWM
+add wave -noupdate -expand -group lsu -group DTIM /testbench/dut/core/lsu/dtim/dtim/DTIMAdr
+add wave -noupdate -expand -group lsu -group DTIM /testbench/dut/core/lsu/dtim/dtim/WriteDataM
+add wave -noupdate -expand -group lsu -group DTIM /testbench/dut/core/lsu/dtim/dtim/ReadDataWordM
+add wave -noupdate -expand -group lsu -group DTIM /testbench/dut/core/lsu/dtim/dtim/FlushW
+add wave -noupdate -expand -group lsu -group DTIM -group RAM /testbench/dut/core/lsu/dtim/dtim/ram/addr
+add wave -noupdate -expand -group lsu -group DTIM -group RAM /testbench/dut/core/lsu/dtim/dtim/ram/din
+add wave -noupdate -expand -group lsu -group DTIM -group RAM /testbench/dut/core/lsu/dtim/dtim/ram/dout
 add wave -noupdate -expand -group lsu -group bus /testbench/dut/core/ebu/ebu/HCLK
 add wave -noupdate -expand -group lsu -group bus -color Gold /testbench/dut/core/lsu/bus/dcache/ahbcacheinterface/AHBBuscachefsm/CurrState
 add wave -noupdate -expand -group lsu -group bus /testbench/dut/core/lsu/bus/dcache/ahbcacheinterface/AHBBuscachefsm/HREADY
