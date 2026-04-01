@@ -115,11 +115,7 @@ _start:
   and tp, tp, -64
 
   # Set stack pointer to top of DTIM.
-  # With the decode-safe map used by linker1000.x/config:
-  #   DTIM_BASE=0x4000, DTIM_RANGE=0x1FFF -> top=0x6000
-  # The default crt.S stack of tp+128KB lands far outside DTIM,
-  # causing silent store failures and corrupted return addresses.
-  li sp, 0x6000
+  li sp, 0x5000
 
 	call main
 1:	j 1b
