@@ -23,14 +23,35 @@
 #define LOCAL_SCALE_FACTOR 170
 
 #ifndef CPU_MHZ
-#define CPU_MHZ 10000000
+#define CPU_MHZ 20
 #endif
-
+#define WARMUP_HEAT 1
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #ifdef __TURBOC__
 #pragma warn -cln
 #endif
+
+static uint64_t
+read_mcycle64 (void)
+{
+  uint32_t hi_before;
+  uint32_t lo;
+  uint32_t hi_after;
+
+  /* On RV32, sample the high half twice so we don't return a torn value. */
+  do
+    {
+      asm volatile ("csrr %0, mcycleh" : "=r" (hi_before));
+      asm volatile ("csrr %0, mcycle" : "=r" (lo));
+      asm volatile ("csrr %0, mcycleh" : "=r" (hi_after));
+    }
+  while (hi_before != hi_after);
+
+  return ((uint64_t) hi_before << 32) | lo;
+}
 
 /**********************************************************************\
   |* Demonstration program to compute the 32-bit CRC used as the frame  *|
@@ -213,17 +234,37 @@ verify_benchmark (int r)
   return 11433 == r;
 }
 
-int main(){
-  int res = benchmark_body(1);
-  int correct = verify_benchmark(res);
-  // correct is 1 if verified, return a clear number for debug
-  if (correct){
-    return 48879; //BEEF
-  }
-  else{
-    return 2989; //BAD
-  }
+int
+main (void)
+{
+  uint64_t start_cycles;
+  uint64_t stop_cycles;
+  uint64_t benchmark_cycles;
+  int res;
+  int correct;
 
+  uartInit();
+
+  initialise_benchmark ();
+  warm_caches (WARMUP_HEAT);
+
+  start_cycles = read_mcycle64 ();
+  res = benchmark ();
+  stop_cycles = read_mcycle64 ();
+
+  benchmark_cycles = stop_cycles - start_cycles;
+  correct = verify_benchmark (res);
+
+  if (correct)
+    {
+      printf ("CRC computed correctly\n\r");
+      printf ("Benchmark cycles: %llu\n\r",
+              (unsigned long long) benchmark_cycles);
+      return 0;
+    }
+
+  printf ("CRC computed wrong\n\r");
+  return 1;
 }
 
 

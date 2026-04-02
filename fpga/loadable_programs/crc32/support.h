@@ -60,6 +60,8 @@ int verify_benchmark (int res);
 
 /* Local simplified versions of library functions */
 
+void uartInit(void);
+
 #include "beebsc.h"
 
 #endif /* SUPPORT_H */
