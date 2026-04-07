@@ -240,6 +240,7 @@ main (void)
   uint64_t start_cycles;
   uint64_t stop_cycles;
   uint64_t benchmark_cycles;
+  uint32_t benchmark_cycles_lo;
   int res;
   int correct;
 
@@ -256,14 +257,17 @@ main (void)
   correct = verify_benchmark (res);
 
   if (correct)
-    {
-      printf ("CRC computed correctly\n\r");
-      printf ("Benchmark cycles: %llu\n\r",
-              (unsigned long long) benchmark_cycles);
+  {
+      printf("CRC computed correctly\n\r");
+  
+      printstr("Benchmark cycles: 0x");
+      printhex(benchmark_cycles);
+      printstr("\n\r");
+  
       return 0;
-    }
-
-  printf ("CRC computed wrong\n\r");
+  }
+  
+  printf("CRC computed wrong\n\r");
   return 1;
 }
 

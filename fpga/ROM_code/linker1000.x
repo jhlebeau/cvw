@@ -87,11 +87,11 @@ SECTIONS
     *(.bss .bss.* .gnu.linkonce.b.*)
     *(COMMON)
   }
-  
+
   __DTIM_end = .;
   ASSERT(__DTIM_end <= DTIM_LIMIT,
          "DTIM overflow: .text exceeds 0x1fff; image no longer fits")
-  
+
   _end = .;
   PROVIDE(end = .);
 

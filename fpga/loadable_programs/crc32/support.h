@@ -15,6 +15,8 @@
 #ifndef SUPPORT_H
 #define SUPPORT_H
 
+#include <stdint.h>
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -58,9 +60,13 @@ int benchmark (void) __attribute__ ((noinline));
 
 int verify_benchmark (int res);
 
-/* Local simplified versions of library functions */
-
+/* Printing functions */
 void uartInit(void);
+void uartSend(char c);
+char uartReceive(void);
+void uartPutStr(const char *str);
+void printstr(const char* s);
+void printhex(uint64_t x);
 
 #include "beebsc.h"
 

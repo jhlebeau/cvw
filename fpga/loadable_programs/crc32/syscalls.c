@@ -52,7 +52,7 @@ char uartReceive(void) {
   return *UART_RBR;
 }
 
-char uartPutStr(const char *str) {
+void uartPutStr(const char *str) {
     while (*str) {
         uartSend(*str++);
     }
