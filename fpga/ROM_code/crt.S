@@ -115,7 +115,7 @@ _start:
   and tp, tp, -64
 
   # Set stack pointer to top of DTIM.
-  li sp, 0x5000
+  li sp, 0x30000
 
 	call main
 1:	j 1b

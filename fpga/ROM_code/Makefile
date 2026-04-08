@@ -42,7 +42,7 @@ vpath %.$(SEXT)   $(SRCDIR) $(LOADABLE_DIR)
 TARGET        := $(TARGETDIR)/boot
 MARCH         := -march=rv32imc_zicsr
 MABI          := -mabi=ilp32
-LINK_FLAGS    := $(MARCH) $(MABI) -nostartfiles -L $(RISCV)/riscv64-unknown-elf/lib
+LINK_FLAGS    := $(MARCH) $(MABI) -nostartfiles
 LIBS          := -lm
 LINKER        := linker1000.x
 

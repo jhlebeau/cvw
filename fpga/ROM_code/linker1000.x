@@ -7,17 +7,17 @@ ENTRY(_start)
  * BASE must be aligned to (RANGE+1) for intuitive contiguous regions.
  *
  * Chosen map:
- *   IROM (execute-only): 0x0000_1000 - 0x0000_1FFF  (RESET at 0x1000)
- *   DTIM (read/write):   0x0000_3000 - 0x0000_1FFF
+ *   IROM (execute-only): 0x0001_0000 - 0x0000_FFFF  (RESET at 0x10000)
+ *   DTIM (read/write):   0x0002_0000 - 0x0000_FFFF
  */
-IROM_BASE  = 0x00001000;
-IROM_LIMIT = 0x00003000;
-DTIM_BASE  = 0x00003000;
-DTIM_LIMIT = 0x00005000;
+IROM_BASE  = 0x00010000;
+IROM_LIMIT = 0x00020000;
+DTIM_BASE  = 0x00020000;
+DTIM_LIMIT = 0x00030000;
 
 SECTIONS
 {
-  /* Starting at 0x1000 to match IROM location */
+  /* Starting at 0x10000 to match IROM location */
   . = IROM_BASE;
 
   .text :
@@ -30,7 +30,7 @@ SECTIONS
 
   __IROM_end = .;
   ASSERT(__IROM_end <= IROM_LIMIT,
-         "IROM overflow: .text exceeds 0x1fff; image no longer fits before DTIM at 0x4000")
+         "IROM overflow: .text exceeds 0xffff; image no longer fits before DTIM")
 
   /* Data segment — must be in DTIM (0x4000+), not IROM.
    * The IROM is instruction-fetch-only hardware; data loads/stores in IROM
