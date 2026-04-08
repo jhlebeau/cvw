@@ -26,6 +26,13 @@
 #define CPU_MHZ 20
 #endif
 #define WARMUP_HEAT 1
+
+/* Embench reference normalized time for crc32 from baseline-data/speed.json. */
+#define CRC32_EMBENCH_BASELINE_TIME 4010ULL
+#define USEC_PER_MSEC 1000ULL
+#define SCORE_DECIMAL_PLACES 6
+#define SCORE_SCALE 1000000ULL
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,6 +58,37 @@ read_mcycle64 (void)
   while (hi_before != hi_after);
 
   return ((uint64_t) hi_before << 32) | lo;
+}
+
+static void
+print_padded_decimal (uint64_t value, unsigned int width)
+{
+  char digits[20];
+  unsigned int idx = 0;
+
+  do
+    {
+      digits[idx++] = '0' + (value % 10);
+      value /= 10;
+    }
+  while (value != 0 && idx < sizeof (digits));
+
+  while (idx < width)
+    digits[idx++] = '0';
+
+  while (idx > 0)
+    uartSend (digits[--idx]);
+}
+
+static void
+print_fixed_score (uint64_t scaled_score)
+{
+  uint64_t whole = scaled_score / SCORE_SCALE;
+  uint64_t frac = scaled_score % SCORE_SCALE;
+
+  print_padded_decimal (whole, 1);
+  uartSend ('.');
+  print_padded_decimal (frac, SCORE_DECIMAL_PLACES);
 }
 
 /**********************************************************************\
@@ -240,7 +278,7 @@ main (void)
   uint64_t start_cycles;
   uint64_t stop_cycles;
   uint64_t benchmark_cycles;
-  uint32_t benchmark_cycles_lo;
+  uint64_t scaled_embench_score;
   int res;
   int correct;
 
@@ -258,15 +296,23 @@ main (void)
 
   if (correct)
   {
-      printf("CRC computed correctly\n\r");
+      scaled_embench_score =
+        (CRC32_EMBENCH_BASELINE_TIME * CPU_MHZ * USEC_PER_MSEC * SCORE_SCALE)
+        / benchmark_cycles;
 
+      printf("CRC computed correctly\n\r");
+  
       printstr("Benchmark cycles: 0x");
       printhex(benchmark_cycles);
       printstr("\n\r");
 
+      printstr("CRC32 Embench relative speed: ");
+      print_fixed_score(scaled_embench_score);
+      printstr("\n\r");
+  
       return 0;
   }
-
+  
   printf("CRC computed wrong\n\r");
   return 1;
 }
