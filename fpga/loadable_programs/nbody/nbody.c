@@ -63,7 +63,7 @@
 
 #include "support.h"
 
-#define LOCAL_SCALE_FACTOR 1
+#define LOCAL_SCALE_FACTOR 170
 
 #ifndef CPU_MHZ
 #define CPU_MHZ 20
@@ -139,23 +139,6 @@ read_mcycle64 (void)
   return ((uint64_t) hi_before << 32) | lo;
 }
 
-static double
-sqrt_beebs (double x)
-{
-  double guess;
-  int i;
-
-  if (x <= 0.0)
-    return 0.0;
-
-  guess = (x > 1.0) ? x : 1.0;
-
-  for (i = 0; i < 20; i++)
-    guess = 0.5 * (guess + x / guess);
-
-  return guess;
-}
-
 void
 offset_momentum (struct body *bodies, unsigned int nbodies)
 {
@@ -183,7 +166,7 @@ bodies_energy (struct body *bodies, unsigned int nbodies)
           for (k = 0; k < 3; ++k)
             dx[k] = bodies[i].x[k] - bodies[j].x[k];
 
-          distance = sqrt_beebs (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]);
+          distance = sqrt (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]);
           e -= (bodies[i].mass * bodies[j].mass) / distance;
         }
     }

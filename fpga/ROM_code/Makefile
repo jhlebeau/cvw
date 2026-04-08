@@ -43,6 +43,7 @@ TARGET        := $(TARGETDIR)/boot
 MARCH         := -march=rv32imc_zicsr
 MABI          := -mabi=ilp32
 LINK_FLAGS    := $(MARCH) $(MABI) -nostartfiles -L $(RISCV)/riscv64-unknown-elf/lib
+LIBS          := -lm
 LINKER        := linker1000.x
 
 SYSTEMCLOCK   ?= 20000000
@@ -88,7 +89,7 @@ $(BUILDDIR)/%.$(OBJEXT): %.$(SEXT)
 # --- Linker and Post-Processing ---
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(LINK_FLAGS) -g -o $(TARGET) $(OBJECTS) -T ${LINKER}
+	$(CC) $(LINK_FLAGS) -g -o $(TARGET) $(OBJECTS) $(LIBS) -T ${LINKER}
 
 $(TARGET).memfile: $(TARGET)
 	riscv64-unknown-elf-objdump -d $< > $<.objdump

@@ -8,5 +8,5 @@ int main(void){
   asm volatile ("csrr %0, mcycleh" : "=r" (hi_before));
   asm volatile ("csrr %0, mcycle" : "=r" (lo));
   return lo;
-
+  
 }

@@ -259,14 +259,14 @@ main (void)
   if (correct)
   {
       printf("CRC computed correctly\n\r");
-
+  
       printstr("Benchmark cycles: 0x");
       printhex(benchmark_cycles);
       printstr("\n\r");
-
+  
       return 0;
   }
-
+  
   printf("CRC computed wrong\n\r");
   return 1;
 }

@@ -301,7 +301,7 @@ main (void)
         / benchmark_cycles;
 
       printf("CRC computed correctly\n\r");
-  
+
       printstr("Benchmark cycles: 0x");
       printhex(benchmark_cycles);
       printstr("\n\r");
@@ -309,10 +309,10 @@ main (void)
       printstr("CRC32 Embench relative speed: ");
       print_fixed_score(scaled_embench_score);
       printstr("\n\r");
-  
+
       return 0;
   }
-  
+
   printf("CRC computed wrong\n\r");
   return 1;
 }
