@@ -6,7 +6,7 @@
 #include "embench_common.h"
 #include "snipmath.h"
 
-#define CUBIC_LOCAL_SCALE_FACTOR 170ULL
+#define CUBIC_LOCAL_SCALE_FACTOR 10
 static int soln_cnt0;
 static int soln_cnt1;
 static double res0[3];

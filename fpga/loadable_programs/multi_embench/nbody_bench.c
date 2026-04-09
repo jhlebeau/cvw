@@ -4,7 +4,7 @@
 #include "beebsc.h"
 #include "embench_common.h"
 
-#define NBODY_LOCAL_SCALE_FACTOR 170ULL
+#define NBODY_LOCAL_SCALE_FACTOR 1
 #define NBODY_PI 3.141592653589793
 #define SOLAR_MASS (4 * NBODY_PI * NBODY_PI)
 #define DAYS_PER_YEAR 365.24
