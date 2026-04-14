@@ -8,7 +8,6 @@ from pathlib import Path
 
 
 DEFAULT_CPU_MHZ = 20
-DEFAULT_LOCAL_SCALE_FACTOR = 170
 USEC_PER_MSEC = 1000
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -64,10 +63,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--local-scale-factor",
         type=int,
-        default=DEFAULT_LOCAL_SCALE_FACTOR,
+        default=None,
         help=(
             "LOCAL_SCALE_FACTOR used by the measured program "
-            f"(default: {DEFAULT_LOCAL_SCALE_FACTOR})"
+            "(default: use the benchmark's recommended Embench value)"
         ),
     )
     return parser
@@ -81,9 +80,6 @@ def main() -> int:
         parser.error("cycles must be a positive integer")
     if args.cpu_mhz <= 0:
         parser.error("--cpu-mhz must be a positive integer")
-    if args.local_scale_factor <= 0:
-        parser.error("--local-scale-factor must be a positive integer")
-
     baselines = load_baselines(BASELINE_PATH)
     if args.benchmark not in baselines:
         known = ", ".join(sorted(baselines))
@@ -96,19 +92,25 @@ def main() -> int:
         print(str(exc), file=sys.stderr)
         return 1
 
+    measured_scale_factor = args.local_scale_factor
+    if measured_scale_factor is None:
+        measured_scale_factor = official_scale_factor
+    elif measured_scale_factor <= 0:
+        parser.error("--local-scale-factor must be a positive integer")
+
     baseline_ms = baselines[args.benchmark]
     score = compute_score(
         baseline_ms=baseline_ms,
         cycles=args.cycles,
         cpu_mhz=args.cpu_mhz,
-        measured_scale_factor=args.local_scale_factor,
+        measured_scale_factor=measured_scale_factor,
         official_scale_factor=official_scale_factor,
     )
 
     print(f"Benchmark: {args.benchmark}")
     print(f"Cycle count: {args.cycles}")
     print(f"CPU_MHZ: {args.cpu_mhz}")
-    print(f"Measured LOCAL_SCALE_FACTOR: {args.local_scale_factor}")
+    print(f"Measured LOCAL_SCALE_FACTOR: {measured_scale_factor}")
     print(f"Official LOCAL_SCALE_FACTOR: {official_scale_factor}")
     print(f"Official source: {source_path.relative_to(REPO_ROOT)}")
     print(f"Baseline time (ms): {baseline_ms}")
