@@ -370,7 +370,7 @@ fillframe (void)
 }
 
 //========================================================================
-// Masking 
+// Masking
 static void
 applymask (unsigned char m)
 {
