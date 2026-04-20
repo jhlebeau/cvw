@@ -35,6 +35,8 @@ tests/custom/*/*/
 tests/custom/*/*/*.memfile
 sim/tests/riscvdv
 testbench/trek_files/*/uvm_output
+tests/tool_tests
+
 
 # Linux
 linux/buildroot

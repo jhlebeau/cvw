@@ -6,7 +6,6 @@ import re
 import sys
 from pathlib import Path
 
-
 DEFAULT_CPU_MHZ = 20
 USEC_PER_MSEC = 1000
 
