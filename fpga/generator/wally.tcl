@@ -155,7 +155,7 @@ if {$do_archive} {
     archive_project $archive_path \
         -force \
         -include_config_settings
-        
+
     #exit Vivado
     exit
 }
